@@ -4,7 +4,10 @@ MAINTAINER rdebourbon@xpandata.net
 # add our user and group first to make sure their IDs get assigned regardless of what other dependencies may get added.
 RUN groupadd -r librarian && useradd -r -g librarian librarian
 
-RUN apt-get update -q && \
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF && \
+    apt install apt-transport-https && \
+    echo "deb https://download.mono-project.com/repo/ubuntu stable-xenial main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list && \
+    apt-get update -q && \
     apt-get install -qy libmono-cil-dev curl mediainfo && \
     apt-get -y autoremove && \
     apt-get -y clean && \
